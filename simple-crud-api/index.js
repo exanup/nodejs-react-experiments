@@ -1,12 +1,14 @@
+require('./database/db');
+
 const express = require('express');
-const routes = require('./routes');
+const apiRoutes = require('./routes/api');
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-app.use('/api', routes);
+app.use('/api', apiRoutes);
 
 // error handling
 app.use('*', (err, req, res, next) => {
