@@ -1,5 +1,3 @@
-require('./database/db');
-
 const express = require('express');
 const apiRoutes = require('./routes/api');
 
@@ -11,12 +9,12 @@ app.use(express.urlencoded({extended: true}));
 app.use('/api', apiRoutes);
 
 // error handling
-app.use('*', (err, req, res, next) => {
-  res.status(500);
-  res.json({
-    message: 'something went wrong!'
-  })
-});
+// app.use('*', (err, req, res, next) => {
+//   res.status(500);
+//   res.json({
+//     message: 'something went wrong!'
+//   })
+// });
 
 app.listen(8080, 'localhost', () => {
   console.log(`Listening at http://localhost:8080`);

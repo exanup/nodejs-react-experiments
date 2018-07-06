@@ -7,8 +7,9 @@ const kenxConfig = {
     port: '5432',
     user: 'my-blog-admin',
     password: 'password',
-    database: 'my-blog'
-  }
+    database: 'my-blog',
+  },
+  debug: true
 };
 
 module.exports = kenxConfig;
