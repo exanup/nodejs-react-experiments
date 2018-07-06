@@ -1,15 +1,13 @@
-// TODO: need to replace hardcoded values with dotenv
-
 const kenxConfig = {
-  client: 'pg',
+  client: process.env.DB_TYPE,
   connection: {
-    host: '127.0.0.1',
-    port: '5432',
-    user: 'my-blog-admin',
-    password: 'password',
-    database: 'my-blog',
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
   },
-  debug: true
+  debug: (process.env.NODE_ENV === 'development'),
 };
 
 module.exports = kenxConfig;

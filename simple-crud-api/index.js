@@ -1,10 +1,17 @@
+require('dotenv').config();
+require('./database/db');
+
 const express = require('express');
 const apiRoutes = require('./routes/api');
 
 const app = express();
 
+app.set('env', process.env.NODE_ENV);
+
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({
+  extended: true,
+}));
 
 app.use('/api', apiRoutes);
 
@@ -16,8 +23,8 @@ app.use('/api', apiRoutes);
 //   })
 // });
 
-app.listen(8080, 'localhost', () => {
-  console.log(`Listening at http://localhost:8080`);
+app.listen(process.env.NODE_PORT, process.env.NODE_HOST, () => {
+  console.log(`Listening at http://${process.env.NODE_HOST}:${process.env.NODE_PORT}`);
 });
 
 module.exports = app;

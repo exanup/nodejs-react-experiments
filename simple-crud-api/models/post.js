@@ -1,6 +1,6 @@
 const knex = require('../database/db');
 
-const SCHEMA_NAME = 'my-blog';
+const SCHEMA_NAME = process.env.DB_SCHEMA;
 const TABLE_NAME = 'posts';
 
 const db = knex(TABLE_NAME).withSchema(SCHEMA_NAME);
