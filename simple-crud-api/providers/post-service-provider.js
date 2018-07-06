@@ -1,6 +1,6 @@
 const post = require('../models/post');
 
-postService = {
+const postService = {
   getAllPosts() {
     return post.fetchAll();
   },
@@ -19,7 +19,7 @@ postService = {
 
   deletePost(id) {
     return post.delete(id);
-  }
+  },
 };
 
 module.exports = postService;

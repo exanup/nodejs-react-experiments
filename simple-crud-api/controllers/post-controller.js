@@ -1,5 +1,5 @@
 const express = require('express');
-const postService = require('../services/post-service');
+const postService = require('../providers/post-service-provider');
 
 const router = express.Router();
 
