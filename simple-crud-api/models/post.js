@@ -1,44 +1,37 @@
-const knex = require('../database/db');
+const knex = require('../database/knex');
 
-const SCHEMA_NAME = process.env.DB_SCHEMA;
 const TABLE_NAME = 'posts';
 
-const db = knex(TABLE_NAME).withSchema(SCHEMA_NAME);
-
-class Post {
-  constructor() {
-  }
-
+const post = {
   fetchAll() {
-    return db
-      .select('*')
-  }
+    return knex(TABLE_NAME)
+      .select('*');
+  },
 
   fetch(id) {
-    return db
+    return knex(TABLE_NAME)
       .select('*')
       .where('id', id);
-  }
+  },
 
   create(reqData) {
-    return db
-      .insert(reqData)
-  }
+    return knex(TABLE_NAME)
+      .insert(reqData);
+  },
 
   update(id, reqData) {
-    return db
+    return knex(TABLE_NAME)
       .update(reqData)
       .where('id', id);
-  }
+  },
 
   delete(id) {
-    return db
+    return knex(TABLE_NAME)
       .del()
       .where('id', id);
-  }
+  },
+};
 
-}
-
-post = new Post();
+// const post = new Post();
 
 module.exports = post;
