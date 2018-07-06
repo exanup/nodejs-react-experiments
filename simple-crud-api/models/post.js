@@ -2,36 +2,38 @@ const knex = require('../database/knex');
 
 const TABLE_NAME = 'posts';
 
-const post = {
-  fetchAll() {
-    return knex(TABLE_NAME)
-      .select('*');
-  },
+function fetchAll() {
+  return knex(TABLE_NAME)
+    .select();
+}
 
-  fetch(id) {
-    return knex(TABLE_NAME)
-      .select('*')
-      .where('id', id);
-  },
+function fetch(id) {
+  return knex(TABLE_NAME)
+    .select()
+    .where({ id });
+}
 
-  create(reqData) {
-    return knex(TABLE_NAME)
-      .insert(reqData);
-  },
+function create(reqData) {
+  return knex(TABLE_NAME)
+    .insert(reqData);
+}
 
-  update(id, reqData) {
-    return knex(TABLE_NAME)
-      .update(reqData)
-      .where('id', id);
-  },
+function update(id, reqData) {
+  return knex(TABLE_NAME)
+    .update(reqData)
+    .where({ id });
+}
 
-  delete(id) {
-    return knex(TABLE_NAME)
-      .del()
-      .where('id', id);
-  },
+function remove(id) {
+  return knex(TABLE_NAME)
+    .del()
+    .where({ id });
+}
+
+module.exports = {
+  fetchAll,
+  fetch,
+  create,
+  update,
+  remove,
 };
-
-// const post = new Post();
-
-module.exports = post;

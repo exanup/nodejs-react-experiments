@@ -18,7 +18,7 @@ const postService = {
   },
 
   deletePost(id) {
-    return post.delete(id);
+    return post.remove(id);
   },
 };
 
