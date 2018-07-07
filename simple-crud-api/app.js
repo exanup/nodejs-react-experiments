@@ -1,12 +1,14 @@
 require('dotenv').config();
 
 const express = require('express');
+const helmet = require('helmet');
 const apiRoutes = require('./routes/api');
 
 const app = express();
 
 app.set('env', process.env.APP_ENV);
 
+app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true,

@@ -1,5 +1,5 @@
 const express = require('express');
-const postService = require('../providers/post-service-provider');
+const postService = require('../serviceProviders/postServiceProvider');
 
 const router = express.Router();
 
@@ -55,6 +55,17 @@ router.delete('/:id', (req, res, next) => {
   // delete the post
   postService
     .deletePost(req.params.id)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
+});
+
+router.get('/posts/:id/comments', (req, res, next) => {
+  postService
+    .fetchAllComments(req.params.id)
     .then((data) => {
       res.json(data);
     })

@@ -1,4 +1,4 @@
-const kenxConfig = {
+const knexConfig = {
   client: process.env.DB_TYPE,
   connection: {
     host: process.env.DB_HOST,
@@ -8,7 +8,14 @@ const kenxConfig = {
     database: process.env.DB_DATABASE,
   },
   searchPath: [process.env.DB_SCHEMA],
+  pool: {
+    min: 2,
+    max: 10,
+  },
+  migrations: {
+    tableName: 'knex_migrations',
+  },
   debug: (process.env.NODE_ENV === 'development'),
 };
 
-module.exports = kenxConfig;
+module.exports = knexConfig;
