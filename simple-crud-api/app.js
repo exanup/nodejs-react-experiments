@@ -5,7 +5,7 @@ const apiRoutes = require('./routes/api');
 
 const app = express();
 
-app.set('env', process.env.NODE_ENV);
+app.set('env', process.env.APP_ENV);
 
 app.use(express.json());
 app.use(express.urlencoded({
@@ -22,8 +22,8 @@ app.use('*', (err, req, res) => {
   });
 });
 
-app.listen(process.env.NODE_PORT, process.env.NODE_HOST, () => {
-  console.log(`Listening at http://${process.env.NODE_HOST}:${process.env.NODE_PORT}`);
+app.listen(process.env.APP_PORT, process.env.APP_HOST, () => {
+  console.log(`Listening at http://${process.env.APP_HOST}:${process.env.APP_PORT}`);
 });
 
 module.exports = app;
