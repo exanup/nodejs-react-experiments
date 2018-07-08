@@ -9,7 +9,9 @@ function fetchAll() {
 function fetch(id) {
   return knex(TABLE_NAME)
     .select()
-    .where({ id });
+    .where({ id })
+    .limit(1)
+    .then(posts => posts[0]);
 }
 
 function create(reqData) {

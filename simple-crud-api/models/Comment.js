@@ -11,7 +11,9 @@ function fetchAll(postId) {
 function fetch(id) {
   return knex(TABLE_NAME)
     .select()
-    .where({ id });
+    .where({ id })
+    .limit(1)
+    .then(comments => comments[0]);
 }
 
 function create(reqData) {

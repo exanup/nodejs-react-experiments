@@ -8,7 +8,6 @@ router.get('/', (req, res, next) => {
   postService
     .getAllPosts()
     .then((data) => {
-      // also need to get all the related comments
       res.json(data);
     })
     .catch((err) => {
@@ -21,7 +20,6 @@ router.get('/:id', (req, res, next) => {
   postService
     .getPost(req.params.id)
     .then((data) => {
-      // also need to get all the related comments
       res.json(data);
     })
     .catch((err) => {
