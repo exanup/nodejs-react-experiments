@@ -17,7 +17,8 @@ function getAllPosts() {
   return Post.fetchAll()
     .then(posts => getPostsWithComments(posts))
     .catch((error) => {
-      throw Error(error);
+      throw Error(`${error}. ${error.hint}`);
+      // throw Error(error);
     });
 }
 
@@ -25,25 +26,29 @@ function getPost(id) {
   return Post.fetch(id)
     .then(post => Comment.fetchAll(id).then(comment => ({ ...post, comment })))
     .catch((error) => {
-      throw Error(error);
+      throw Error(`${error}. ${error.hint}`);
+      // throw Error(error);
     });
 }
 
 function createPost(reqData) {
   return Post.create(reqData).catch((error) => {
-    throw Error(error);
+    throw Error(`${error}. ${error.hint}`);
+    // throw Error(error);
   });
 }
 
 function updatePost(id, reqData) {
   return Post.update(id, reqData).catch((error) => {
-    throw Error(error);
+    throw Error(`${error}. ${error.hint}`);
+    // throw Error(error);
   });
 }
 
 function deletePost(id) {
   return Post.remove(id).catch((error) => {
-    throw Error(error);
+    throw Error(`${error}. ${error.hint}`);
+    // throw Error(error);
   });
 }
 
