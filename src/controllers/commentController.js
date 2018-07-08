@@ -3,41 +3,31 @@ const commentService = require('../serviceProviders/commentServiceProvider');
 
 const router = express.Router();
 
-router.post('/', (req, res, next) => {
-  // create a new comment
-  commentService
-    .createComment(req.body)
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((err) => {
-      next(err);
-    });
+router.post('/', async (req, res, next) => {
+  try {
+    const responsePromise = commentService.createComment(req.body);
+    res.json(await responsePromise);
+  } catch (err) {
+    next(err);
+  }
 });
 
-router.put('/:id', (req, res, next) => {
-  // update the comment
-  commentService
-    .updateComment(req.params.id, req.body)
-    .then((data) => {
-      res.json(data);
-    })
-    .catch((err) => {
-      next(err);
-    });
+router.put('/:id', async (req, res, next) => {
+  try {
+    const responsePromise = commentService.updateComment(req.params.id, req.body);
+    res.json(await responsePromise);
+  } catch (err) {
+    next(err);
+  }
 });
 
-router.delete('/:id', (req, res, next) => {
-  // delete the comment
-  commentService
-    .deleteComment(req.params.id)
-    .then((data) => {
-      // make sure all the comments are deleted too
-      res.json(data);
-    })
-    .catch((err) => {
-      next(err);
-    });
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const responsePromise = commentService.deleteComment(req.params.id);
+    res.json(await responsePromise);
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = router;
