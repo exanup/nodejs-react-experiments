@@ -1,12 +1,22 @@
 {
   "name": "simple-crud-api",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "version": "0.1.0",
+  "description": "Simple Node.js Express API",
+  "main": "src/app.js",
+  "author": {
+    "name": "Anup Dhakal",
+    "email": "anupdhakal2000@gmail.com"
   },
-  "author": "",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js --watch .env --watch src",
+    "migration:make": "knex migrate:make --knexfile src/database/knexfile.js",
+    "migration:currentVersion": "knex migrate:currentVersion --knexfile src/database/knexfile.js",
+    "seeder:make": "knex seed:make --knexfile src/database/knexfile.js",
+    "rollback": "knex migrate:rollback --knexfile src/database/knexfile.js",
+    "migrate": "knex migrate:latest --knexfile src/database/knexfile.js",
+    "seed": "knex seed:run --knexfile src/database/knexfile.js"
+  },
   "license": "ISC",
   "dependencies": {
     "dotenv": "^6.0.0",
