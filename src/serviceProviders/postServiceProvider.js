@@ -12,8 +12,8 @@ async function getPostsWithComments(posts) {
     return { ...post, comments };
   });
 
-  let postsWithComments = [];
-  for await (const postWithComments of  postsWithCommentsPromises) {
+  const postsWithComments = [];
+  for await (const postWithComments of postsWithCommentsPromises) {
     postsWithComments.push(postWithComments);
   }
 
