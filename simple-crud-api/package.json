@@ -17,7 +17,7 @@
     "migrate": "knex migrate:latest --knexfile src/database/knexfile.js",
     "seed": "knex seed:run --knexfile src/database/knexfile.js"
   },
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
