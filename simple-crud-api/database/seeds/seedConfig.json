@@ -1,4 +1,4 @@
 {
-  "postsMax": 100,
-  "commentsMax": 1000
+  "postsMax": 20,
+  "commentsMax": 200
 }

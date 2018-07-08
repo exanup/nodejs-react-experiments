@@ -1,45 +1,44 @@
 const express = require('express');
+const commentService = require('../serviceProviders/commentServiceProvider');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  // show all comments
-  res.json({
-    message: 'show all comments...',
-    params: req.params,
-  });
-});
-
-router.get('/:id', (req, res) => {
-  // show the comment
-  res.json({
-    message: 'showing the comment...',
-    params: req.params,
-  });
-});
-
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
   // create a new comment
-  res.json({
-    message: 'create a new comment...',
-    params: req.params,
-  });
+  commentService
+    .createComment(req.body)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', (req, res, next) => {
   // update the comment
-  res.json({
-    message: 'update the comment...',
-    params: req.params,
-  });
+  console.log(11, req.params, req.body);
+  commentService
+    .updateComment(req.params.id, req.body)
+    .then((data) => {
+      res.json(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', (req, res, next) => {
   // delete the comment
-  res.json({
-    message: 'delete the comment...',
-    params: req.params,
-  });
+  commentService
+    .deleteComment(req.params.id)
+    .then((data) => {
+      // make sure all the comments are deleted too
+      res.json(data);
+    })
+    .catch((err) => {
+      next(err);
+    });
 });
 
 module.exports = router;

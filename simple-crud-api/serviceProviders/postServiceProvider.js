@@ -1,5 +1,4 @@
 const post = require('../models/Post');
-const comment = require('../models/Comment');
 
 function getAllPosts() {
   return post.fetchAll();
@@ -21,15 +20,10 @@ function deletePost(id) {
   return post.remove(id);
 }
 
-function fetchAllComments(postId) {
-  return comment.fetchCommentsFromPost(postId);
-}
-
 module.exports = {
   getAllPosts,
   getPost,
   createPost,
   updatePost,
   deletePost,
-  fetchAllComments,
 };

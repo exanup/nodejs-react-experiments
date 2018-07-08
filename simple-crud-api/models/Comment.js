@@ -2,7 +2,7 @@ const knex = require('../database/knex');
 
 const TABLE_NAME = 'comments';
 
-function fetchCommentsFromPost(postId) {
+function fetchAll(postId) {
   return knex(TABLE_NAME)
     .select()
     .where({ post_id: postId });
@@ -15,12 +15,23 @@ function fetch(id) {
 }
 
 function create(reqData) {
-  return knex(TABLE_NAME).insert(reqData);
+  const now = knex.fn.now();
+  const dataToInsert = {
+    ...reqData,
+    created_at: now,
+    updated_at: now,
+  };
+  return knex(TABLE_NAME).insert(dataToInsert);
 }
 
 function update(id, reqData) {
+  const now = knex.fn.now();
+  const dataToUpdate = {
+    ...reqData,
+    updated_at: now,
+  };
   return knex(TABLE_NAME)
-    .update(reqData)
+    .update(dataToUpdate)
     .where({ id });
 }
 
@@ -31,7 +42,7 @@ function remove(id) {
 }
 
 module.exports = {
-  fetchCommentsFromPost,
+  fetchAll,
   fetch,
   create,
   update,

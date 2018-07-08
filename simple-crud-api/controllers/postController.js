@@ -8,6 +8,7 @@ router.get('/', (req, res, next) => {
   postService
     .getAllPosts()
     .then((data) => {
+      // also need to get all the related comments
       res.json(data);
     })
     .catch((err) => {
@@ -20,6 +21,7 @@ router.get('/:id', (req, res, next) => {
   postService
     .getPost(req.params.id)
     .then((data) => {
+      // also need to get all the related comments
       res.json(data);
     })
     .catch((err) => {
@@ -56,17 +58,7 @@ router.delete('/:id', (req, res, next) => {
   postService
     .deletePost(req.params.id)
     .then((data) => {
-      res.json(data);
-    })
-    .catch((err) => {
-      next(err);
-    });
-});
-
-router.get('/posts/:id/comments', (req, res, next) => {
-  postService
-    .fetchAllComments(req.params.id)
-    .then((data) => {
+      // make sure all the comments are deleted too
       res.json(data);
     })
     .catch((err) => {
