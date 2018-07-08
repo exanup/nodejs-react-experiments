@@ -1,23 +1,23 @@
-const comment = require('../models/Comment');
+const Comment = require('../models/Comment');
 
 function getAllComments(postId) {
-  return comment.fetchAll(postId);
+  return Comment.fetchAll(postId);
 }
 
 function getComment(id) {
-  return comment.fetch(id);
+  return Comment.fetch(id);
 }
 
 function createComment(reqData) {
-  return comment.create(reqData);
+  return Comment.create(reqData);
 }
 
 function updateComment(id, reqData) {
-  return comment.update(id, reqData);
+  return Comment.update(id, reqData);
 }
 
 function deleteComment(id) {
-  return comment.remove(id);
+  return Comment.remove(id);
 }
 
 module.exports = {
