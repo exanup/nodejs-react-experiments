@@ -13,42 +13,41 @@ function getPostsWithComments(posts) {
   );
 }
 
+function getPostWithComments(id, post) {
+  return Comment.fetchAll(id).then(comment => ({ ...post, comment }));
+}
+
 function getAllPosts() {
   return Post.fetchAll()
     .then(posts => getPostsWithComments(posts))
     .catch((error) => {
-      throw Error(`${error}. ${error.hint}`);
-      // throw Error(error);
+      throw Error(`${error}. ${error.hint ? error.hint : ''}`);
     });
 }
 
 function getPost(id) {
   return Post.fetch(id)
-    .then(post => Comment.fetchAll(id).then(comment => ({ ...post, comment })))
+    .then(post => getPostWithComments(id, post))
     .catch((error) => {
-      throw Error(`${error}. ${error.hint}`);
-      // throw Error(error);
+      throw Error(`${error}. ${error.hint ? error.hint : ''}`);
     });
 }
 
 function createPost(reqData) {
   return Post.create(reqData).catch((error) => {
-    throw Error(`${error}. ${error.hint}`);
-    // throw Error(error);
+    throw Error(`${error}. ${error.hint ? error.hint : ''}`);
   });
 }
 
 function updatePost(id, reqData) {
   return Post.update(id, reqData).catch((error) => {
-    throw Error(`${error}. ${error.hint}`);
-    // throw Error(error);
+    throw Error(`${error}. ${error.hint ? error.hint : ''}`);
   });
 }
 
 function deletePost(id) {
   return Post.remove(id).catch((error) => {
-    throw Error(`${error}. ${error.hint}`);
-    // throw Error(error);
+    throw Error(`${error}. ${error.hint ? error.hint : ''}`);
   });
 }
 
