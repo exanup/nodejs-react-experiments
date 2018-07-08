@@ -17,7 +17,6 @@ router.post('/', (req, res, next) => {
 
 router.put('/:id', (req, res, next) => {
   // update the comment
-  console.log(11, req.params, req.body);
   commentService
     .updateComment(req.params.id, req.body)
     .then((data) => {
