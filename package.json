@@ -24,6 +24,7 @@
     "express": "^4.16.3",
     "faker": "^4.1.0",
     "helmet": "^3.12.1",
+    "jsonwebtoken": "^8.3.0",
     "knex": "^0.15.0",
     "node-pre-gyp": "^0.10.2",
     "pg": "^7.4.3"
