@@ -21,7 +21,7 @@ module.exports = {
   seeds: {
     directory: './seeds',
   },
-  debug: process.env.APP_ENV === 'development',
+  // debug: process.env.APP_ENV === 'development',
 };
 
 if (process.env.APP_ENV === 'development') {

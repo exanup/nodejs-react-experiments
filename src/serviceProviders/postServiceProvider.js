@@ -12,12 +12,7 @@ async function getPostsWithComments(posts) {
     return { ...post, comments };
   });
 
-  const postsWithComments = [];
-  for await (const postWithComments of postsWithCommentsPromises) {
-    postsWithComments.push(postWithComments);
-  }
-
-  return postsWithComments;
+  return Promise.all(postsWithCommentsPromises);
 }
 
 async function getPostWithComments(postId, post) {
@@ -32,7 +27,7 @@ async function getAllPosts() {
     const postsWithCommentsPromise = getPostsWithComments(await postsPromise);
     return postsWithCommentsPromise;
   } catch (err) {
-    throw Error(`${err}. ${err.hint ? err.hint : ''}`);
+    throw Error(`${err}. ${err.hint ? err.hint : ''} ${err.detail ? err.detail : ''}`);
   }
 }
 
@@ -42,7 +37,7 @@ async function getPost(id) {
     const postWithCommentsPromise = getPostWithComments(id, await postPromise);
     return postWithCommentsPromise;
   } catch (err) {
-    throw Error(`${err}. ${err.hint ? err.hint : ''}`);
+    throw Error(`${err}. ${err.hint ? err.hint : ''} ${err.detail ? err.detail : ''}`);
   }
 }
 
@@ -51,7 +46,7 @@ async function createPost(post) {
     const responsePromise = Post.create(post);
     return responsePromise;
   } catch (err) {
-    throw Error(`${err}. ${err.hint ? err.hint : ''}`);
+    throw Error(`${err}. ${err.hint ? err.hint : ''} ${err.detail ? err.detail : ''}`);
   }
 }
 
@@ -60,7 +55,7 @@ async function updatePost(id, updatedPost) {
     const responsePromise = Post.update(id, updatedPost);
     return responsePromise;
   } catch (err) {
-    throw Error(`${err}. ${err.hint ? err.hint : ''}`);
+    throw Error(`${err}. ${err.hint ? err.hint : ''} ${err.detail ? err.detail : ''}`);
   }
 }
 
@@ -69,7 +64,7 @@ async function deletePost(id) {
     const responsePromise = Post.remove(id);
     return responsePromise;
   } catch (err) {
-    throw Error(`${err}. ${err.hint ? err.hint : ''}`);
+    throw Error(`${err}. ${err.hint ? err.hint : ''} ${err.detail ? err.detail : ''}`);
   }
 }
 

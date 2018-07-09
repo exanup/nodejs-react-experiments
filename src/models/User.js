@@ -1,24 +1,25 @@
 const knex = require('../database/knex');
 
-const TABLE_NAME = 'posts';
+const TABLE_NAME = 'users';
 
 function fetchAll() {
-  return knex(TABLE_NAME)
-    .select()
-    .catch((err) => {
-      throw new Error(err);
-    });
+  return knex(TABLE_NAME).select();
 }
 
-function fetch(id) {
+function fetchById(id) {
   return knex(TABLE_NAME)
     .select()
     .where({ id })
     .limit(1)
-    .then(posts => posts[0])
-    .catch((err) => {
-      throw new Error(err);
-    });
+    .then(users => users[0]);
+}
+
+function fetchByEmail(email) {
+  return knex(TABLE_NAME)
+    .select()
+    .where({ email })
+    .limit(1)
+    .then(users => users[0]);
 }
 
 function create(reqData) {
@@ -28,11 +29,7 @@ function create(reqData) {
     created_at: now,
     updated_at: now,
   };
-  return knex(TABLE_NAME)
-    .insert(dataToInsert)
-    .catch((err) => {
-      throw new Error(err);
-    });
+  return knex(TABLE_NAME).insert(dataToInsert);
 }
 
 function update(id, reqData) {
@@ -43,24 +40,19 @@ function update(id, reqData) {
   };
   return knex(TABLE_NAME)
     .update(dataToUpdate)
-    .where({ id })
-    .catch((err) => {
-      throw new Error(err);
-    });
+    .where({ id });
 }
 
 function remove(id) {
   return knex(TABLE_NAME)
     .del()
-    .where({ id })
-    .catch((err) => {
-      throw new Error(err);
-    });
+    .where({ id });
 }
 
 module.exports = {
   fetchAll,
-  fetch,
+  fetchById,
+  fetchByEmail,
   create,
   update,
   remove,

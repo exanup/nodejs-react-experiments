@@ -1,4 +1,5 @@
 {
+  "usersMax": 5,
   "postsMax": 20,
   "commentsMax": 200
 }
