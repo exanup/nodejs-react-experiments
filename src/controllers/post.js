@@ -5,8 +5,8 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
   try {
-    const postsPromise = postService.getAllPosts();
-    res.json(await postsPromise);
+    const posts = await postService.getAllPosts();
+    res.json(posts);
   } catch (err) {
     next(err);
   }

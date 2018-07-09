@@ -41,6 +41,24 @@ async function getPost(id) {
   }
 }
 
+// async function getAllPosts(id) {
+//   try {
+//     return Post.fetchAllWithComments(id);
+//   } catch (err) {
+//     console.log(err);
+//     throw new Error(err);
+//   }
+// }
+
+// async function getPost(id) {
+//   try {
+//     return Post.fetchWithComments(id);
+//   } catch (err) {
+//     console.log(err);
+//     throw new Error(err);
+//   }
+// }
+
 async function createPost(post) {
   try {
     const responsePromise = Post.create(post);
