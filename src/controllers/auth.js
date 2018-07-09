@@ -7,12 +7,25 @@ router.post('/', (req, res) => {
   authService
     .login(req.body)
     .then((data) => {
-      console.log(22, data);
+      // console.log(22, data);
       res.json(data);
     })
     .catch((err) => {
-      console.log(33, err);
-      res.status(401).json(err);
+      console.log(401, err);
+      res.status(401).json({ msg: 'not authorized' });
+    });
+});
+
+router.post('/refresh/', (req, res) => {
+  authService
+    .reLogin(req.body.refreshToken)
+    .then((data) => {
+      // console.log(22, data);
+      res.json(data);
+    })
+    .catch((err) => {
+      console.log(401, err);
+      res.status(401).json({ msg: 'not authorized' });
     });
 });
 

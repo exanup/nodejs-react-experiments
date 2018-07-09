@@ -1,24 +1,48 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-
+const jwtHelper = require('../utils/jwtHelper');
 const User = require('../models/User');
+const Token = require('../models/Token');
+
+const errMsg = 'Email or password did not match!';
 
 async function login(reqBody) {
   const { email, password } = reqBody;
+
   const user = await User.fetchByEmail(email);
-  const isPasswordCorrect = await bcrypt.compare(password, user.hash);
-  if (isPasswordCorrect) {
-    const accessToken = jwt.sign({ data: user }, process.env.SECRET, { expiresIn: 60 * 1 });
-    const refreshToken = jwt.sign({ data: user }, process.env.SECRET, {
-      expiresIn: 60 * 60 * 24 * 30,
-    });
-    // TODO insert refreshToken in the table
-    return { accessToken, refreshToken };
-  }
-  // console.log('na');
-  throw new Error({ msg: 'Email or password did not match!' });
+  if (typeof user === 'undefined') throw new Error(errMsg);
+
+  if (!jwtHelper.verifyPassword(password, user)) throw new Error(errMsg);
+
+  const accessToken = jwtHelper.createNewAccessToken(user);
+  const refreshToken = jwtHelper.createNewRefreshToken(user);
+
+  const tokenId = await Token.set(user.id, refreshToken);
+  if (!tokenId) throw new Error('Cannot set token for some reason!');
+
+  return { accessToken, refreshToken };
+}
+
+async function reLogin(refreshToken) {
+  const idAndUserId = await Token.getIdAndUserId(refreshToken);
+  if (typeof idAndUserId === 'undefined') throw new Error('Token not found');
+
+  const { id, userId } = idAndUserId;
+
+  const tokenRemoved = await Token.remove(id);
+  if (!tokenRemoved) throw new Error('Token cannot be removed');
+
+  const user = await User.fetchById(userId);
+  if (typeof user === 'undefined') throw new Error('User account is missing!');
+
+  const newAccessToken = jwtHelper.createNewAccessToken(user);
+  const newRefreshToken = jwtHelper.createNewRefreshToken(user);
+
+  const tokenId = await Token.set(userId, newRefreshToken);
+  if (!tokenId) throw new Error('Cannot set token for some reason!');
+
+  return { accessToken: newAccessToken, refreshToken: newRefreshToken };
 }
 
 module.exports = {
   login,
+  reLogin,
 };
