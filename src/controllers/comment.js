@@ -1,5 +1,5 @@
 const express = require('express');
-const commentService = require('../serviceProviders/commentServiceProvider');
+const commentService = require('../services/comment');
 
 const router = express.Router();
 

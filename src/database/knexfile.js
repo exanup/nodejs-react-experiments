@@ -24,7 +24,7 @@ module.exports = {
   debug: process.env.APP_ENV === 'development',
 };
 
-if (process.env.APP_ENV === 'development') {
-  console.log('knexfile => ');
-  console.log(module.exports);
-}
+// if (process.env.APP_ENV === 'development') {
+//   console.log('knexfile => ');
+//   console.log(module.exports);
+// }

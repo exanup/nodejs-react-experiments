@@ -6,8 +6,12 @@ exports.up = knex => knex.schema.createTable('comments', (table) => {
     .references('posts.id')
     .onDelete('CASCADE')
     .onUpdate('CASCADE');
-  table.string('author');
-  table.timestamps();
+  table
+    .integer('author_id')
+    .references('users.id')
+    .onDelete('CASCADE')
+    .onUpdate('CASCADE');
+  table.timestamps(true, true);
 });
 
 exports.down = knex => knex.schema.dropTable('comments');
