@@ -20,7 +20,7 @@ function getIdAndUserId(token) {
 }
 
 function remove(tokenId) {
-  console.log('Token to be deleted: ', tokenId);
+  // console.log('Token to be deleted: ', tokenId);
   return knex(TABLE_NAME)
     .del()
     .where({ id: tokenId });

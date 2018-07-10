@@ -4,15 +4,14 @@ const knex = require('../database/knex');
 const TABLE_NAME = 'posts';
 // const COMMENT_TABLE = 'comments';
 
-function fetchAll() {
+function fetchAll(userId) {
+  // console.log(99999, userId);
   return knex(TABLE_NAME)
     .select()
-    .catch((err) => {
-      throw new Error(err);
-    });
+    .where({ author_id: userId });
 }
 
-// function fetchAllWithComments() {
+// function fetchAllWithComments(userId) {
 //   return knex(TABLE_NAME)
 //     .innerJoin(COMMENT_TABLE, `${TABLE_NAME}.id`, `${COMMENT_TABLE}.post_id`)
 //     .select(
@@ -28,13 +27,10 @@ function fetchAll() {
 //       { comment_user_id: 'comments.user_id' },
 //       { comment_created_at: 'comments.created_at' },
 //       { comment_updated_at: 'comments.updated_at' },
-//     )
-//     .catch((err) => {
-//       throw new Error(err);
-//     });
+//     );
 // }
 
-// function fetchAllWithComments() {
+// function fetchAllWithComments(userId) {
 //   return knex(TABLE_NAME)
 //     .innerJoin(COMMENT_TABLE, `${TABLE_NAME}.id`, `${COMMENT_TABLE}.post_id`)
 //     .select(
@@ -51,69 +47,41 @@ function fetchAll() {
 //       sh.gsc('comments.created_at'),
 //       sh.gsc('comments.updated_at'),
 //     )
-//     .catch((err) => {
-//       throw new Error(err);
-//     });
 // }
 
-function fetch(id) {
+function fetch(id, userId) {
   return knex(TABLE_NAME)
     .select()
-    .where({ id })
+    .where({ id, user_id: userId })
     .limit(1)
-    .then(posts => posts[0])
-    .catch((err) => {
-      throw new Error(err);
-    });
+    .then(posts => posts[0]);
 }
 
-// function fetchWithComments(id) {
+// function fetchWithComments(id, userId) {
 //   return knex(TABLE_NAME)
 //     .join(COMMENT_TABLE, `${TABLE_NAME}.id`, '=', `${COMMENT_TABLE}.post_id`)
 //     .select()
 //     .where({ id })
 //     .limit(1)
-//     .then(posts => posts[0])
-//     .catch((err) => {
-//       throw new Error(err);
-//     });
+//     .then(posts => posts[0]);
 // }
 
-function create(reqData) {
-  const now = knex.fn.now();
-  const dataToInsert = {
-    ...reqData,
-    created_at: now,
-    updated_at: now,
-  };
-  return knex(TABLE_NAME)
-    .insert(dataToInsert)
-    .catch((err) => {
-      throw new Error(err);
-    });
+function create(reqData, userId) {
+  const { title, body } = reqData;
+  return knex(TABLE_NAME).insert({ title, body, author_id: userId });
 }
 
-function update(id, reqData) {
-  const now = knex.fn.now();
-  const dataToUpdate = {
-    ...reqData,
-    updated_at: now,
-  };
+function update(id, reqData, userId) {
+  const { title, body } = reqData;
   return knex(TABLE_NAME)
-    .update(dataToUpdate)
-    .where({ id })
-    .catch((err) => {
-      throw new Error(err);
-    });
+    .update({ title, body })
+    .where({ id, author_id: userId });
 }
 
-function remove(id) {
+function remove(id, userId) {
   return knex(TABLE_NAME)
     .del()
-    .where({ id })
-    .catch((err) => {
-      throw new Error(err);
-    });
+    .where({ id, author_id: userId });
 }
 
 module.exports = {

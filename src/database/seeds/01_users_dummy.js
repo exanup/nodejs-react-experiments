@@ -11,8 +11,8 @@ exports.seed = knex => knex('users')
   .del()
   .then(async () => {
     const plainPassword = 'password';
-    const arrItr = [...Array(usersMax)];
-    const usersPromises = arrItr.map(async (data, index) => {
+    const dummyArr = [...Array(usersMax)];
+    const usersPromises = dummyArr.map(async (data, index) => {
       const passwordHash = await bcrypt.hash(plainPassword + index, saltRounds);
       const user = {
         email: faker.internet.email(),

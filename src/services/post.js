@@ -2,17 +2,10 @@ const Post = require('../models/Post');
 const Comment = require('../models/Comment');
 
 async function getPostsWithComments(posts) {
-  // map function does not wait for await, which means it runs all
-  //  the function calls simultaneously into a group being executed
-  //  in parallel. This improves performance compared to running a
-  //  for loop and using await there, which halts its execution in
-  //  while waiting for data in every iteration.
-  const postsWithCommentsPromises = posts.map(async (post) => {
+  return Promise.all(posts.map(async (post) => {
     const comments = await Comment.fetchAll(post.id);
     return { ...post, comments };
-  });
-
-  return Promise.all(postsWithCommentsPromises);
+  }));
 }
 
 async function getPostWithComments(postId, post) {
@@ -21,27 +14,29 @@ async function getPostWithComments(postId, post) {
   return postWithComment;
 }
 
-async function getAllPosts() {
+async function getAllPosts(userId) {
   try {
-    const postsPromise = Post.fetchAll();
-    const postsWithCommentsPromise = getPostsWithComments(await postsPromise);
-    return postsWithCommentsPromise;
+    const posts = await Post.fetchAll(userId);
+    // console.log(55555, posts);
+    const postsWithComments = await getPostsWithComments(posts);
+    return postsWithComments;
   } catch (err) {
     throw Error(`${err}. ${err.hint ? err.hint : ''} ${err.detail ? err.detail : ''}`);
   }
 }
 
-async function getPost(id) {
+async function getPost(id, userId) {
   try {
-    const postPromise = Post.fetch(id);
-    const postWithCommentsPromise = getPostWithComments(id, await postPromise);
-    return postWithCommentsPromise;
+    const post = await Post.fetch(id, userId);
+    // console.log(22222, post); // this is undefined???
+    const postWithComments = await getPostWithComments(id, post);
+    return postWithComments;
   } catch (err) {
     throw Error(`${err}. ${err.hint ? err.hint : ''} ${err.detail ? err.detail : ''}`);
   }
 }
 
-// async function getAllPosts(id) {
+// async function getAllPosts(id, userId) {
 //   try {
 //     return Post.fetchAllWithComments(id);
 //   } catch (err) {
@@ -50,7 +45,7 @@ async function getPost(id) {
 //   }
 // }
 
-// async function getPost(id) {
+// async function getPost(id, userId) {
 //   try {
 //     return Post.fetchWithComments(id);
 //   } catch (err) {
@@ -59,28 +54,28 @@ async function getPost(id) {
 //   }
 // }
 
-async function createPost(post) {
+async function createPost(post, userId) {
   try {
-    const responsePromise = Post.create(post);
-    return responsePromise;
+    const response = await Post.create(post, userId);
+    return response;
   } catch (err) {
     throw Error(`${err}. ${err.hint ? err.hint : ''} ${err.detail ? err.detail : ''}`);
   }
 }
 
-async function updatePost(id, updatedPost) {
+async function updatePost(id, updatedPost, userId) {
   try {
-    const responsePromise = Post.update(id, updatedPost);
-    return responsePromise;
+    const response = await Post.update(id, updatedPost, userId);
+    return response;
   } catch (err) {
     throw Error(`${err}. ${err.hint ? err.hint : ''} ${err.detail ? err.detail : ''}`);
   }
 }
 
-async function deletePost(id) {
+async function deletePost(id, userId) {
   try {
-    const responsePromise = Post.remove(id);
-    return responsePromise;
+    const response = await Post.remove(id, userId);
+    return response;
   } catch (err) {
     throw Error(`${err}. ${err.hint ? err.hint : ''} ${err.detail ? err.detail : ''}`);
   }

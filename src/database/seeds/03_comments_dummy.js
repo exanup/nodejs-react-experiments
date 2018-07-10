@@ -19,7 +19,7 @@ exports.seed = knex => knex('comments')
       const comment = {
         body: faker.lorem.paragraph(),
         post_id: rndPostId,
-        user_id: rndUserId,
+        author_id: rndUserId,
       };
       comments.push(comment);
     }

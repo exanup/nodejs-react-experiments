@@ -1,4 +1,9 @@
 const express = require('express');
+
+// middleware
+const authenticate = require('../middleware/auth');
+
+// controllers
 const postController = require('../controllers/post');
 const commentController = require('../controllers/comment');
 const registerController = require('../controllers/register');
@@ -6,16 +11,9 @@ const authController = require('../controllers/auth');
 
 const router = express.Router();
 
-router.use('/posts', postController);
-router.use('/comments', commentController);
+router.use('/posts', authenticate, postController);
+router.use('/comments', authenticate, commentController);
 router.use('/register', registerController);
-router.use('/login', authController);
-
-// fallback router
-router.all('*', (req, res) => {
-  res.status(404).json({
-    message: 'Not Found',
-  });
-});
+router.use('/auth', authController);
 
 module.exports = router;

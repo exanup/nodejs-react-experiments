@@ -11,7 +11,7 @@ exports.seed = knex => knex('posts')
       const post = {
         title: faker.lorem.sentence(5),
         body: faker.lorem.paragraph(1),
-        user_id: rndUserId,
+        author_id: rndUserId,
       };
       posts.push(post);
     }

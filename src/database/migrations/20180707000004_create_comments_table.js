@@ -7,7 +7,7 @@ exports.up = knex => knex.schema.createTable('comments', (table) => {
     .onDelete('CASCADE')
     .onUpdate('CASCADE');
   table
-    .integer('user_id')
+    .integer('author_id')
     .references('users.id')
     .onDelete('CASCADE')
     .onUpdate('CASCADE');

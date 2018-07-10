@@ -12,8 +12,8 @@ async function login(reqBody) {
 
   if (!jwtHelper.verifyPassword(password, user)) throw new Error(errMsg);
 
-  const accessToken = jwtHelper.createNewAccessToken(user);
-  const refreshToken = jwtHelper.createNewRefreshToken(user);
+  const accessToken = jwtHelper.createNewAccessToken(user.id);
+  const refreshToken = jwtHelper.createNewRefreshToken(user.id);
 
   const tokenId = await Token.set(user.id, refreshToken);
   if (!tokenId) throw new Error('Cannot set token for some reason!');
@@ -22,6 +22,9 @@ async function login(reqBody) {
 }
 
 async function reLogin(refreshToken) {
+  // console.log(111, refreshToken);
+  if (!jwtHelper.verifyRefreshToken(refreshToken)) throw new Error('Token cannot be verified!');
+
   const idAndUserId = await Token.getIdAndUserId(refreshToken);
   if (typeof idAndUserId === 'undefined') throw new Error('Token not found');
 
@@ -30,11 +33,8 @@ async function reLogin(refreshToken) {
   const tokenRemoved = await Token.remove(id);
   if (!tokenRemoved) throw new Error('Token cannot be removed');
 
-  const user = await User.fetchById(userId);
-  if (typeof user === 'undefined') throw new Error('User account is missing!');
-
-  const newAccessToken = jwtHelper.createNewAccessToken(user);
-  const newRefreshToken = jwtHelper.createNewRefreshToken(user);
+  const newAccessToken = jwtHelper.createNewAccessToken(userId);
+  const newRefreshToken = jwtHelper.createNewRefreshToken(userId);
 
   const tokenId = await Token.set(userId, newRefreshToken);
   if (!tokenId) throw new Error('Cannot set token for some reason!');
@@ -42,7 +42,13 @@ async function reLogin(refreshToken) {
   return { accessToken: newAccessToken, refreshToken: newRefreshToken };
 }
 
+// TODO make logout work
+async function logout(accessToken) {
+  return accessToken;
+}
+
 module.exports = {
   login,
   reLogin,
+  logout,
 };

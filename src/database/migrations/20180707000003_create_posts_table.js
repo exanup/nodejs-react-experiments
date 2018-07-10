@@ -3,7 +3,7 @@ exports.up = knex => knex.schema.createTable('posts', (table) => {
   table.string('title').unique();
   table.text('body');
   table
-    .integer('user_id')
+    .integer('author_id')
     .references('users.id')
     .onUpdate('CASCADE')
     .onDelete('CASCADE');
