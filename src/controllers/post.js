@@ -5,7 +5,6 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
   try {
-    // console.log(15151515151515151511, req.user);
     const posts = await postService.getAllPosts(req.user.id);
     res.json(posts);
   } catch (err) {
@@ -16,7 +15,6 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     const post = await postService.getPost(req.params.id, req.user.id);
-    // console.log(1111);
     res.json(post);
   } catch (err) {
     next(err);

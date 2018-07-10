@@ -13,7 +13,6 @@ async function authenticate(req, res, next) {
 
     next();
   } catch (err) {
-    // console.log(222, err);
     next(errMsg);
   }
 }

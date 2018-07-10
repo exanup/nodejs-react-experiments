@@ -5,7 +5,6 @@ const TABLE_NAME = 'posts';
 // const COMMENT_TABLE = 'comments';
 
 function fetchAll(userId) {
-  // console.log(99999, userId);
   return knex(TABLE_NAME)
     .select()
     .where({ author_id: userId });

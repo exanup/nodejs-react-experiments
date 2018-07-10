@@ -20,7 +20,6 @@ function verifyAccessToken(accessToken) {
 }
 
 function verifyRefreshToken(refreshToken) {
-  // console.log(222, refreshToken);
   return jwt.verify(refreshToken, process.env.REFRESH_SECRET);
 }
 

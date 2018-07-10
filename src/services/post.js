@@ -17,7 +17,6 @@ async function getPostWithComments(postId, post) {
 async function getAllPosts(userId) {
   try {
     const posts = await Post.fetchAll(userId);
-    // console.log(55555, posts);
     const postsWithComments = await getPostsWithComments(posts);
     return postsWithComments;
   } catch (err) {
@@ -28,7 +27,6 @@ async function getAllPosts(userId) {
 async function getPost(id, userId) {
   try {
     const post = await Post.fetch(id, userId);
-    // console.log(22222, post); // this is undefined???
     const postWithComments = await getPostWithComments(id, post);
     return postWithComments;
   } catch (err) {
@@ -40,7 +38,6 @@ async function getPost(id, userId) {
 //   try {
 //     return Post.fetchAllWithComments(id);
 //   } catch (err) {
-//     console.log(err);
 //     throw new Error(err);
 //   }
 // }
@@ -49,7 +46,6 @@ async function getPost(id, userId) {
 //   try {
 //     return Post.fetchWithComments(id);
 //   } catch (err) {
-//     console.log(err);
 //     throw new Error(err);
 //   }
 // }

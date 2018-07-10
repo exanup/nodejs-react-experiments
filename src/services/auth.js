@@ -22,7 +22,6 @@ async function login(reqBody) {
 }
 
 async function reLogin(refreshToken) {
-  // console.log(111, refreshToken);
   if (!jwtHelper.verifyRefreshToken(refreshToken)) throw new Error('Token cannot be verified!');
 
   const idAndUserId = await Token.getIdAndUserId(refreshToken);
