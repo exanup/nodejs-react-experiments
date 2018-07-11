@@ -9,7 +9,7 @@ const router = express.Router();
 router.post('/', async (req, res, next) => {
   try {
     const response = await userService.createUser(req.body);
-    req.json(response);
+    res.json(response);
   } catch (err) {
     next(Boom.badRequest());
   }
