@@ -20,14 +20,20 @@ function getIdAndUserId(token) {
 }
 
 function remove(tokenId) {
-  // console.log('Token to be deleted: ', tokenId);
   return knex(TABLE_NAME)
     .del()
     .where({ id: tokenId });
+}
+
+function removeByRefreshToken(refreshToken) {
+  return knex(TABLE_NAME)
+    .del()
+    .where({ refresh_token: refreshToken });
 }
 
 module.exports = {
   set,
   getIdAndUserId,
   remove,
+  removeByRefreshToken,
 };

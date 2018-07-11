@@ -1,7 +1,7 @@
-const jwtHelper = require('../utils/jwtHelper');
-const User = require('../models/User');
+const Boom = require('boom');
 
-const errMsg = 'Access token cannot be verified.';
+const jwtHelper = require('../utils/jwt');
+const User = require('../models/User');
 
 async function authenticate(req, res, next) {
   const accessToken = req.get('Authorization');
@@ -13,8 +13,7 @@ async function authenticate(req, res, next) {
 
     next();
   } catch (err) {
-    // console.log(222, err);
-    next(errMsg);
+    next(Boom.unauthorized());
   }
 }
 

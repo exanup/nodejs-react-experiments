@@ -5,7 +5,6 @@ const TABLE_NAME = 'posts';
 // const COMMENT_TABLE = 'comments';
 
 function fetchAll(userId) {
-  // console.log(99999, userId);
   return knex(TABLE_NAME)
     .select()
     .where({ author_id: userId });
@@ -52,7 +51,7 @@ function fetchAll(userId) {
 function fetch(id, userId) {
   return knex(TABLE_NAME)
     .select()
-    .where({ id, user_id: userId })
+    .where({ id, author_id: userId })
     .limit(1)
     .then(posts => posts[0]);
 }

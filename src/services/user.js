@@ -1,8 +1,5 @@
-const bcrypt = require('bcrypt');
-
 const User = require('../models/User');
-
-const saltRounds = parseInt(process.env.SALT_ROUNDS, 10);
+const jwtHelper = require('../utils/jwt');
 
 function getAllUsers() {
   return User.fetchAll();
@@ -16,16 +13,16 @@ function getUserByEmail(email) {
   return User.fetchById(email);
 }
 
-async function createUser(user) {
-  const { email, password, fullname } = user;
-  const hash = await bcrypt.hash(password, saltRounds);
-  const newUser = { email, hash, fullname };
-
-  return User.create(newUser);
+async function createUser(reqBody) {
+  const { password } = reqBody;
+  const hash = await jwtHelper.getHash(password);
+  return User.create(reqBody, hash);
 }
 
-function updateUser(id, updatedUser) {
-  return User.update(id, updatedUser);
+async function updateUser(id, reqBody) {
+  const { password } = reqBody;
+  const hash = await jwtHelper.getHash(password);
+  return User.update(id, reqBody, hash);
 }
 
 function deleteUser(id) {

@@ -8,39 +8,30 @@ function fetchAll(postId) {
     .where({ post_id: postId });
 }
 
-function fetch(id) {
+function fetch(id, postId) {
   return knex(TABLE_NAME)
     .select()
-    .where({ id })
+    .where({ id, post_id: postId })
     .limit(1)
     .then(comments => comments[0]);
 }
 
-function create(reqData) {
-  const now = knex.fn.now();
-  const dataToInsert = {
-    ...reqData,
-    created_at: now,
-    updated_at: now,
-  };
-  return knex(TABLE_NAME).insert(dataToInsert);
+function create(reqData, authorId) {
+  const { body, postId } = reqData;
+  return knex(TABLE_NAME).insert({ body, post_id: postId, author_id: authorId });
 }
 
-function update(id, reqData) {
-  const now = knex.fn.now();
-  const dataToUpdate = {
-    ...reqData,
-    updated_at: now,
-  };
+function update(id, reqData, authorId) {
+  const { body } = reqData;
   return knex(TABLE_NAME)
-    .update(dataToUpdate)
-    .where({ id });
+    .update({ body })
+    .where({ id, author_id: authorId });
 }
 
-function remove(id) {
+function remove(id, authorId) {
   return knex(TABLE_NAME)
     .del()
-    .where({ id });
+    .where({ id, author_id: authorId });
 }
 
 module.exports = {

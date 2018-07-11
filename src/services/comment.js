@@ -4,20 +4,20 @@ function getAllComments(postId) {
   return Comment.fetchAll(postId);
 }
 
-function getComment(id) {
-  return Comment.fetch(id);
+function getComment(id, postId) {
+  return Comment.fetch(id, postId);
 }
 
-function createComment(reqData) {
-  return Comment.create(reqData);
+function createComment(reqData, authorId) {
+  return Comment.create(reqData, authorId);
 }
 
-function updateComment(id, reqData) {
-  return Comment.update(id, reqData);
+function updateComment(id, reqData, authorId) {
+  return Comment.update(id, reqData, authorId);
 }
 
-function deleteComment(id) {
-  return Comment.remove(id);
+function deleteComment(id, authorId) {
+  return Comment.remove(id, authorId);
 }
 
 module.exports = {
