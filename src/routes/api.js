@@ -11,6 +11,7 @@ const authController = require('../controllers/auth');
 
 const router = express.Router();
 
+// routes
 router.use('/posts', authenticate, postController);
 router.use('/comments', authenticate, commentController);
 router.use('/register', registerController);

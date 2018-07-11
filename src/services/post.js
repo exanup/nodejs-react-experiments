@@ -2,79 +2,53 @@ const Post = require('../models/Post');
 const Comment = require('../models/Comment');
 
 async function getPostsWithComments(posts) {
-  return Promise.all(posts.map(async (post) => {
-    const comments = await Comment.fetchAll(post.id);
-    return { ...post, comments };
-  }));
+  return Promise.all(
+    posts.map(async (post) => {
+      const comments = await Comment.fetchAll(post.id);
+      return { ...post, comments };
+    }),
+  );
 }
 
-async function getPostWithComments(postId, post) {
-  const comments = await Comment.fetchAll(postId);
+async function getPostWithComments(post) {
+  const comments = await Comment.fetchAll(post.id);
   const postWithComment = { ...post, comments };
   return postWithComment;
 }
 
 async function getAllPosts(userId) {
-  try {
-    const posts = await Post.fetchAll(userId);
-    const postsWithComments = await getPostsWithComments(posts);
-    return postsWithComments;
-  } catch (err) {
-    throw Error(`${err}. ${err.hint ? err.hint : ''} ${err.detail ? err.detail : ''}`);
-  }
+  const posts = await Post.fetchAll(userId);
+  const postsWithComments = await getPostsWithComments(posts);
+  return postsWithComments;
 }
 
 async function getPost(id, userId) {
-  try {
-    const post = await Post.fetch(id, userId);
-    const postWithComments = await getPostWithComments(id, post);
-    return postWithComments;
-  } catch (err) {
-    throw Error(`${err}. ${err.hint ? err.hint : ''} ${err.detail ? err.detail : ''}`);
-  }
+  const post = await Post.fetch(id, userId);
+  const postWithComments = await getPostWithComments(post);
+  return postWithComments;
 }
 
 // async function getAllPosts(id, userId) {
-//   try {
-//     return Post.fetchAllWithComments(id);
-//   } catch (err) {
-//     throw new Error(err);
-//   }
+//   return Post.fetchAllWithComments(id);
 // }
 
 // async function getPost(id, userId) {
-//   try {
-//     return Post.fetchWithComments(id);
-//   } catch (err) {
-//     throw new Error(err);
-//   }
+//   return Post.fetchWithComments(id);
 // }
 
 async function createPost(post, userId) {
-  try {
-    const response = await Post.create(post, userId);
-    return response;
-  } catch (err) {
-    throw Error(`${err}. ${err.hint ? err.hint : ''} ${err.detail ? err.detail : ''}`);
-  }
+  const response = await Post.create(post, userId);
+  return response;
 }
 
 async function updatePost(id, updatedPost, userId) {
-  try {
-    const response = await Post.update(id, updatedPost, userId);
-    return response;
-  } catch (err) {
-    throw Error(`${err}. ${err.hint ? err.hint : ''} ${err.detail ? err.detail : ''}`);
-  }
+  const response = await Post.update(id, updatedPost, userId);
+  return response;
 }
 
 async function deletePost(id, userId) {
-  try {
-    const response = await Post.remove(id, userId);
-    return response;
-  } catch (err) {
-    throw Error(`${err}. ${err.hint ? err.hint : ''} ${err.detail ? err.detail : ''}`);
-  }
+  const response = await Post.remove(id, userId);
+  return response;
 }
 
 module.exports = {

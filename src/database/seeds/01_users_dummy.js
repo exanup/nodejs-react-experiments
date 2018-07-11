@@ -17,7 +17,8 @@ exports.seed = knex => knex('users')
       const user = {
         email: faker.internet.email(),
         hash: passwordHash,
-        fullname: `${faker.name.firstName()} ${faker.name.lastName()}`,
+        first_name: faker.name.firstName(),
+        last_name: faker.name.lastName(),
       };
       return user;
     });

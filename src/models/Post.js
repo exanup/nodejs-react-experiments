@@ -51,7 +51,7 @@ function fetchAll(userId) {
 function fetch(id, userId) {
   return knex(TABLE_NAME)
     .select()
-    .where({ id, user_id: userId })
+    .where({ id, author_id: userId })
     .limit(1)
     .then(posts => posts[0]);
 }

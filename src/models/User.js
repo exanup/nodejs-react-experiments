@@ -22,24 +22,20 @@ function fetchByEmail(email) {
     .then(users => users[0]);
 }
 
-function create(reqData) {
-  const now = knex.fn.now();
-  const dataToInsert = {
-    ...reqData,
-    created_at: now,
-    updated_at: now,
-  };
-  return knex(TABLE_NAME).insert(dataToInsert);
+function create(reqData, hash) {
+  const { email, firstName, lastName } = reqData;
+  return knex(TABLE_NAME).insert({
+    email,
+    hash,
+    first_name: firstName,
+    last_name: lastName,
+  });
 }
 
-function update(id, reqData) {
-  const now = knex.fn.now();
-  const dataToUpdate = {
-    ...reqData,
-    updated_at: now,
-  };
+function update(id, reqData, hash) {
+  const { firstName, lastName } = reqData;
   return knex(TABLE_NAME)
-    .update(dataToUpdate)
+    .update({ hash, first_name: firstName, last_name: lastName })
     .where({ id });
 }
 

@@ -25,8 +25,15 @@ function remove(tokenId) {
     .where({ id: tokenId });
 }
 
+function removeByRefreshToken(refreshToken) {
+  return knex(TABLE_NAME)
+    .del()
+    .where({ refresh_token: refreshToken });
+}
+
 module.exports = {
   set,
   getIdAndUserId,
   remove,
+  removeByRefreshToken,
 };

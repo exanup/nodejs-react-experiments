@@ -1,15 +1,21 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+const saltRounds = parseInt(process.env.SALT_ROUNDS, 10);
+
 function verifyPassword(password, user) {
-  return bcrypt.compareSync(password, user.hash);
+  return bcrypt.compare(password, user.hash);
 }
 
-function createNewAccessToken(data) {
+function getHash(password) {
+  return bcrypt.hash(password, saltRounds);
+}
+
+function createAccessToken(data) {
   return jwt.sign({ data }, process.env.ACCESS_SECRET, { expiresIn: 60 * 30 });
 }
 
-function createNewRefreshToken(data) {
+function createRefreshToken(data) {
   return jwt.sign({ data }, process.env.REFRESH_SECRET, {
     expiresIn: 60 * 60 * 24 * 30,
   });
@@ -25,8 +31,9 @@ function verifyRefreshToken(refreshToken) {
 
 module.exports = {
   verifyPassword,
-  createNewAccessToken,
-  createNewRefreshToken,
+  getHash,
+  createAccessToken,
+  createRefreshToken,
   verifyAccessToken,
   verifyRefreshToken,
 };

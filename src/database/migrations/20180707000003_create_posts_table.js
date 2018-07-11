@@ -1,9 +1,13 @@
 exports.up = knex => knex.schema.createTable('posts', (table) => {
   table.increments();
-  table.string('title').unique();
-  table.text('body');
+  table
+    .string('title')
+    .unique()
+    .notNull();
+  table.text('body').notNull();
   table
     .integer('author_id')
+    .notNull()
     .references('users.id')
     .onUpdate('CASCADE')
     .onDelete('CASCADE');
