@@ -2,6 +2,8 @@ require('dotenv').config();
 
 const express = require('express');
 const helmet = require('helmet');
+const cors = require('cors');
+
 const apiRoutes = require('./routes/api');
 const generalErrorHandler = require('./middleware/generalErrorHandler');
 const routeNotFoundHandler = require('./middleware/routeNotFoundHandler');
@@ -19,6 +21,7 @@ app.use(
     extended: true,
   }),
 );
+app.use(cors());
 
 app.use('/api', apiRoutes);
 app.use(generalErrorHandler);
