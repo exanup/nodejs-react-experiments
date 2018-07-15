@@ -17,7 +17,7 @@ exports.seed = knex => knex('comments')
       const rndPostId = Math.floor(Math.random() * postsMax) + 1;
       const rndUserId = Math.floor(Math.random() * usersMax) + 1;
       const comment = {
-        body: faker.lorem.paragraph(),
+        body: faker.lorem.paragraph(2),
         post_id: rndPostId,
         author_id: rndUserId,
       };

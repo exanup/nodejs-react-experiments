@@ -1,30 +1,50 @@
 const Post = require('../models/Post');
-const Comment = require('../models/Comment');
+const commentService = require('../services/comment');
+const userService = require('../services/user');
+const { withPrettyDateTime } = require('../utils/date');
+
+async function getPostsWithAuthor(posts) {
+  return Promise.all(
+    posts.map(async (post) => {
+      const author = await userService.getUserById(post.author_id);
+      delete author.hash;
+      return { ...post, author };
+    }),
+  );
+}
 
 async function getPostsWithComments(posts) {
   return Promise.all(
     posts.map(async (post) => {
-      const comments = await Comment.fetchAll(post.id);
+      const comments = await commentService.getAllComments(post.id);
       return { ...post, comments };
     }),
   );
 }
 
+async function getPostWithAuthor(post) {
+  const author = await userService.getUserById(post.author_id);
+  delete author.hash;
+  return { ...post, author };
+}
+
 async function getPostWithComments(post) {
-  const comments = await Comment.fetchAll(post.id);
+  const comments = await commentService.getAllComments(post.id);
   const postWithComment = { ...post, comments };
   return postWithComment;
 }
 
 async function getAllPosts(userId) {
-  const posts = await Post.fetchAll(userId);
-  const postsWithComments = await getPostsWithComments(posts);
+  const posts = (await Post.fetchAll(userId)).map(post => withPrettyDateTime(post));
+  const postsWithAuthor = await getPostsWithAuthor(posts);
+  const postsWithComments = await getPostsWithComments(postsWithAuthor);
   return postsWithComments;
 }
 
 async function getPost(id, userId) {
-  const post = await Post.fetch(id, userId);
-  const postWithComments = await getPostWithComments(post);
+  const post = withPrettyDateTime(await Post.fetch(id, userId));
+  const postWithAuthor = await getPostWithAuthor(post);
+  const postWithComments = await getPostWithComments(postWithAuthor);
   return postWithComments;
 }
 

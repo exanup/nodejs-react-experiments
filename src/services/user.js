@@ -1,16 +1,17 @@
 const User = require('../models/User');
 const jwtHelper = require('../utils/jwt');
+const { withPrettyDateTime } = require('../utils/date');
 
-function getAllUsers() {
-  return User.fetchAll();
+async function getAllUsers() {
+  return (await User.fetchAll()).map(user => withPrettyDateTime(user));
 }
 
-function getUserById(id) {
-  return User.fetchById(id);
+async function getUserById(id) {
+  return withPrettyDateTime(await User.fetchById(id));
 }
 
-function getUserByEmail(email) {
-  return User.fetchById(email);
+async function getUserByEmail(email) {
+  return withPrettyDateTime(await User.fetchByEmail(email));
 }
 
 async function createUser(reqBody) {
