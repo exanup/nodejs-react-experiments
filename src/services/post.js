@@ -13,14 +13,14 @@ async function getPostsWithAuthor(posts) {
   );
 }
 
-async function getPostsWithComments(posts) {
-  return Promise.all(
-    posts.map(async (post) => {
-      const comments = await commentService.getAllComments(post.id);
-      return { ...post, comments };
-    }),
-  );
-}
+// async function getPostsWithComments(posts) {
+//   return Promise.all(
+//     posts.map(async (post) => {
+//       const comments = await commentService.getAllComments(post.id);
+//       return { ...post, comments };
+//     }),
+//   );
+// }
 
 async function getPostWithAuthor(post) {
   const author = await userService.getUserById(post.author_id);
@@ -37,8 +37,8 @@ async function getPostWithComments(post) {
 async function getAllPosts(userId) {
   const posts = (await Post.fetchAll(userId)).map(post => withPrettyDateTime(post));
   const postsWithAuthor = await getPostsWithAuthor(posts);
-  const postsWithComments = await getPostsWithComments(postsWithAuthor);
-  return postsWithComments;
+  // const postsWithComments = await getPostsWithComments(postsWithAuthor);
+  return postsWithAuthor;
 }
 
 async function getPost(id, userId) {
