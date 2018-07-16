@@ -14,7 +14,8 @@ async function login(reqBody) {
 
   await Token.set(user.id, refreshToken);
 
-  return { accessToken, refreshToken };
+  delete user.hash;
+  return { accessToken, refreshToken, user };
 }
 
 async function reLogin(refreshToken) {
