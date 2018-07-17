@@ -24,12 +24,15 @@ function fetchByEmail(email) {
 
 function create(reqData, hash) {
   const { email, firstName, lastName } = reqData;
-  return knex(TABLE_NAME).insert({
-    email,
-    hash,
-    first_name: firstName,
-    last_name: lastName,
-  });
+  return knex(TABLE_NAME)
+    .insert({
+      email,
+      hash,
+      first_name: firstName,
+      last_name: lastName,
+    })
+    .returning('*')
+    .then(arr => arr[0]);
 }
 
 function update(id, reqData, hash) {
