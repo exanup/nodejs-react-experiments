@@ -13,7 +13,7 @@ function fetch(id, postId) {
     .select()
     .where({ id, post_id: postId })
     .limit(1)
-    .then(comments => comments[0]);
+    .then(([comment]) => comment);
 }
 
 function create(reqData, authorId) {

@@ -53,7 +53,7 @@ function fetch(id, userId) {
     .select()
     .where({ id, author_id: userId })
     .limit(1)
-    .then(posts => posts[0]);
+    .then(([post]) => post);
 }
 
 // function fetchWithComments(id, userId) {
@@ -62,7 +62,7 @@ function fetch(id, userId) {
 //     .select()
 //     .where({ id })
 //     .limit(1)
-//     .then(posts => posts[0]);
+//     .then(([post]) => post);
 // }
 
 function create(reqData, userId) {
