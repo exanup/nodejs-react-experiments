@@ -31,8 +31,8 @@ function create(reqData, hash) {
       first_name: firstName,
       last_name: lastName,
     })
-    .returning('id')
-    .then(arr => ({ id: arr[0] }));
+    .returning('*')
+    .then(arr => arr[0]);
 }
 
 function update(id, reqData, hash) {
