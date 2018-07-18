@@ -11,7 +11,7 @@ router.post('/', async (req, res, next) => {
     const response = await userService.createUser(req.body);
     res.json(response);
   } catch (err) {
-    next(Boom.badRequest());
+    next(Boom.badRequest(err));
   }
 });
 

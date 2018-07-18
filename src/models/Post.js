@@ -5,9 +5,16 @@ const TABLE_NAME = 'posts';
 // const COMMENT_TABLE = 'comments';
 
 function fetchAll(userId) {
+  let condition;
+  if (typeof userId !== 'undefined') {
+    condition = { author_id: userId };
+  } else {
+    condition = {};
+  }
+
   return knex(TABLE_NAME)
     .select()
-    .where({ author_id: userId });
+    .where(condition);
 }
 
 // function fetchAllWithComments(userId) {
@@ -49,9 +56,16 @@ function fetchAll(userId) {
 // }
 
 function fetch(id, userId) {
+  let condition;
+  if (typeof userId !== 'undefined') {
+    condition = { id, author_id: userId };
+  } else {
+    condition = { id };
+  }
+
   return knex(TABLE_NAME)
     .select()
-    .where({ id, author_id: userId })
+    .where(condition)
     .limit(1)
     .then(([post]) => post);
 }
