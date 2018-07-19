@@ -1,11 +1,12 @@
 const express = require('express');
 const Boom = require('boom');
 
+const authenticate = require('../middleware/auth');
 const commentService = require('../services/comment');
 
 const router = express.Router();
 
-router.post('/', async (req, res, next) => {
+router.post('/', authenticate(), async (req, res, next) => {
   try {
     const response = await commentService.createComment(req.body, req.user.id);
     res.json(response);
@@ -14,7 +15,7 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', authenticate(), async (req, res, next) => {
   try {
     const response = await commentService.updateComment(req.params.id, req.body, req.user.id);
     res.json(response);
@@ -23,7 +24,7 @@ router.put('/:id', async (req, res, next) => {
   }
 });
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', authenticate(), async (req, res, next) => {
   try {
     const response = await commentService.deleteComment(req.params.id, req.user.id);
     res.json(response);

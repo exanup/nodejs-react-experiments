@@ -33,7 +33,7 @@ function create(reqData, userId) {
 function update(id, reqData, userId) {
   const { title, body } = reqData;
   return knex(TABLE_NAME)
-    .update({ title, body })
+    .update({ title, body, updated_at: knex.fn.now() })
     .where({ id, author_id: userId });
 }
 
