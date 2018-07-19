@@ -26,8 +26,8 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/', authenticate(), async (req, res, next) => {
   try {
-    const response = await postService.createPost(req.body, req.user.id);
-    res.json(response);
+    const post = await postService.createPost(req.body, req.user.id);
+    res.json(post);
   } catch (err) {
     next(Boom.badRequest(err));
   }

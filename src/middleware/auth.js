@@ -14,7 +14,7 @@ const User = require('../models/User');
 const authenticate = ({ soft = false } = {}) => async (req, res, next) => {
   if (typeof req.user !== 'undefined') {
     console.log('User is already logged ');
-    next();
+    return next();
   }
 
   try {
@@ -22,16 +22,15 @@ const authenticate = ({ soft = false } = {}) => async (req, res, next) => {
     const userId = jwtHelper.verifyAccessToken(accessToken).data;
     const user = await User.fetchById(userId);
     req.user = user;
-    next();
+    return next();
   } catch (err) {
     if (soft && err.name === 'JsonWebTokenError' && err.message === 'jwt must be provided') {
       console.log('JWT not provided, but going on with it...');
-      next();
-    } else {
-      console.log('Hard authenticate failed. Valid JWT must be provided!');
-      console.log(err);
-      next(Boom.unauthorized(err));
+      return next();
     }
+    console.log('Hard authenticate failed. Valid JWT must be provided!');
+    console.log(err);
+    return next(Boom.unauthorized(err));
   }
 };
 

@@ -34,6 +34,7 @@ app.use(compression({ level: 9 }));
 
 app.use('/api', authenticate({ soft: true }), apiRoutes);
 app.use(generalErrorHandler);
+
 app.use(routeNotFoundHandler);
 
 app.listen(PORT, () => {
