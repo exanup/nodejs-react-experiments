@@ -5,7 +5,8 @@ const TABLE_NAME = 'comments';
 function fetchAll(postId) {
   return knex(TABLE_NAME)
     .select()
-    .where({ post_id: postId });
+    .where({ post_id: postId })
+    .orderBy('updated_at', 'desc');
 }
 
 function fetch(id, postId) {
