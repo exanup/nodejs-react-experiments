@@ -3,24 +3,35 @@ const Boom = require('boom');
 const jwtHelper = require('../utils/jwt');
 const User = require('../models/User');
 
-async function authenticate(req, res, next) {
-  // for now let's make it such that a user is automatically logged in
-  // const userIdToLogin = 1;
-  // const user = await User.fetchById(userIdToLogin);
-  // req.user = user;
-  // next();
+/**
+ * Authenticate the user. If successful, add a prop user to the req
+ * object. If unsuccessful, and if soft is true and token is not
+ * provided, still go on with it. Otherwise, return the error.
+ *
+ * @param {*} [{ soft = false }={}]
+ */
 
-  const accessToken = req.get('Authorization');
+const authenticate = ({ soft = false } = {}) => async (req, res, next) => {
+  if (typeof req.user !== 'undefined') {
+    console.log('User is already logged ');
+    return next();
+  }
 
   try {
+    const accessToken = req.get('Authorization');
     const userId = jwtHelper.verifyAccessToken(accessToken).data;
     const user = await User.fetchById(userId);
     req.user = user;
-
-    next();
+    return next();
   } catch (err) {
-    next(Boom.unauthorized());
+    if (soft && err.name === 'JsonWebTokenError' && err.message === 'jwt must be provided') {
+      console.log('JWT not provided, but going on with it...');
+      return next();
+    }
+    console.log('Hard authenticate failed. Valid JWT must be provided!');
+    console.log(err);
+    return next(Boom.unauthorized(err));
   }
-}
+};
 
 module.exports = authenticate;

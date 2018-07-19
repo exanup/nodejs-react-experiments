@@ -11,7 +11,7 @@ function fetchById(id) {
     .select()
     .where({ id })
     .limit(1)
-    .then(users => users[0]);
+    .then(([user]) => user);
 }
 
 function fetchByEmail(email) {
@@ -19,7 +19,7 @@ function fetchByEmail(email) {
     .select()
     .where({ email })
     .limit(1)
-    .then(users => users[0]);
+    .then(([user]) => user);
 }
 
 function create(reqData, hash) {
@@ -32,7 +32,7 @@ function create(reqData, hash) {
       last_name: lastName,
     })
     .returning('*')
-    .then(arr => arr[0]);
+    .then(([user]) => user);
 }
 
 function update(id, reqData, hash) {

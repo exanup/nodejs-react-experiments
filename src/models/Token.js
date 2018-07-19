@@ -16,7 +16,7 @@ function getIdAndUserId(token) {
     .select()
     .column('id', { userId: 'user_id' })
     .where({ refresh_token: token })
-    .then(data => data[0]);
+    .then(([idAndUserId]) => idAndUserId);
 }
 
 function remove(tokenId) {

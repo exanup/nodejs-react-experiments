@@ -9,6 +9,7 @@ const errorhandler = require('errorhandler');
 const apiRoutes = require('./routes/api');
 const generalErrorHandler = require('./middleware/generalErrorHandler');
 const routeNotFoundHandler = require('./middleware/routeNotFoundHandler');
+const authenticate = require('./middleware/auth');
 
 const PORT = process.env.PORT || 8080;
 
@@ -31,8 +32,9 @@ app.use(
 app.use(cors());
 app.use(compression({ level: 9 }));
 
-app.use('/api', apiRoutes);
+app.use('/api', authenticate({ soft: true }), apiRoutes);
 app.use(generalErrorHandler);
+
 app.use(routeNotFoundHandler);
 
 app.listen(PORT, () => {

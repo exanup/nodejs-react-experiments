@@ -5,7 +5,8 @@ const TABLE_NAME = 'comments';
 function fetchAll(postId) {
   return knex(TABLE_NAME)
     .select()
-    .where({ post_id: postId });
+    .where({ post_id: postId })
+    .orderBy('updated_at', 'desc');
 }
 
 function fetch(id, postId) {
@@ -13,7 +14,7 @@ function fetch(id, postId) {
     .select()
     .where({ id, post_id: postId })
     .limit(1)
-    .then(comments => comments[0]);
+    .then(([comment]) => comment);
 }
 
 function create(reqData, authorId) {
